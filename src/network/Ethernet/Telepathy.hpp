@@ -41,46 +41,17 @@
 
 *********************************************************************/
 
-#include "modinclude.hpp"
+#include "dep.inc.hpp"
 
-#if defined(SET_COMMON_MODULE_ETHERNET)
+#if defined(SET_COMMON_MODULE_ETHERNET) && defined(SET_COMMON_MODULE_CONTEXT)
 
 #ifndef _Telepathy_hpp_
 #define _Telepathy_hpp_
 
-#include "SystemCommon.hpp"
+#include "required.inc.hpp"
+#include "net.def.hpp"
 
-#include "SystemUtil.hpp"
-
-#if defined(WINDOWS_SYS)
-//	#ifdef _AFXDLL
-//#include <afxwin.h>
-//	#else
-#	if defined(MINGW_USING)
-#include <winsock.h>
-//#include <winsock2.h>
-#	else
-//#		if !defined(USING_MARIA_DB)
-#include <windows.h>
-//#		endif
-#include <process.h>
-#	endif
-#include <tchar.h>
-//#endif
-// link the ws2_32.lib
-#pragma comment(lib, "ws2_32.lib")
-#elif defined(POSIX_SYS)
-#include <unistd.h>
-#include <arpa/inet.h>
-#include <sys/types.h> 
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <netinet/tcp.h>
-#include <netdb.h>
-
-// support poll.
-#include <sys/poll.h>
-#endif
+#include "Thread.hpp"
 
 typedef struct _ClientsList {
 #if defined(WINDOWS_SYS)
@@ -154,27 +125,9 @@ public:
 		bool IsServerStarted;
 
 		// server Callback
-		typedef void (* _T_SERVERRECEIVEDCALLBACK)(char *Buffer,
-#if defined(WINDOWS_SYS)
-                                               SOCKET
-#elif defined(POSIX_SYS)
-                                               int
-#endif
-                                               ClientSocket);
-		typedef void (* _T_ANYCONNECTIONNOTIFIER)(
-#if defined(WINDOWS_SYS)
-                                              SOCKET
-#elif defined(POSIX_SYS)
-                                              int
-#endif
-                                              ClientSocket);
-    typedef void (* _T_ANYDISCONNECTIONNOTIFIER)(
-#if defined(WINDOWS_SYS)
-                                                 SOCKET
-#elif defined(POSIX_SYS)
-                                                 int
-#endif
-                                                 ClientSocket);
+		typedef void (* _T_SERVERRECEIVEDCALLBACK)(char *Buffer, T_SOCKET ClientSocket);
+		typedef void (* _T_ANYCONNECTIONNOTIFIER)(T_SOCKET ClientSocket);
+    typedef void (* _T_ANYDISCONNECTIONNOTIFIER)(T_SOCKET ClientSocket);
 		// Server Receive Callback Pointer.
 		_T_SERVERRECEIVEDCALLBACK TServerReceivedCallback;
 		_T_ANYCONNECTIONNOTIFIER TAnyConnectionNotifier;
@@ -184,13 +137,7 @@ public:
 		bool Start_Server();
 		void Close_Server();
 
-		bool SendDataToOne(char *Str,
-#if defined(WINDOWS_SYS)
-                       SOCKET
-#elif defined(POSIX_SYS)
-                       int
-#endif
-                       ClientSocket);
+		bool SendDataToOne(char *Str, T_SOCKET ClientSocket);
 		void SendDataToAll(char *Str);
 
 		// using pthread

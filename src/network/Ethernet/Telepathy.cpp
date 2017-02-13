@@ -45,6 +45,8 @@
 
 #if defined(_Telepathy_hpp_)
 
+#include "MacroTools.hpp"
+
 #pragma region Server Class
 // Telepathy Server Class Area.
 Telepathy::Server *G_TelepathyServer;
@@ -176,7 +178,7 @@ bool Telepathy::Server::Initialize_Server() {
 	}
 
 	// socket listen.
-	if (listen(_ServerSocket, TCP_LISTEN_QUEUE) != 0) {
+	if (listen(_ServerSocket, DEFAULT_TCP_LISTEN_QUEUE) != 0) {
     Close_Server();
 		return false;
 	}
@@ -201,7 +203,7 @@ bool Telepathy::Server::Start_Server() {
 		_TIsStarted = false;
 	}
 	else {
-		// Client 관리 Thread 시작.
+		// start to the Client manage Thread.
 		_Thread.StartThread(Server_ConnectionThread, this);
 		_TIsStarted = IsServerStarted = true;
 	}
@@ -224,18 +226,8 @@ void Telepathy::Server::Close_Server() {
 
 int Telepathy::Server::_AddClient() {
 	// if connected the Client..
-#if defined(WINDOWS_SYS)
-	SOCKET
-#elif defined(POSIX_SYS)
-  int
-#endif
-	_TSocket;
-#if defined(WINDOWS_SYS)
-	SOCKADDR_IN
-#elif defined(POSIX_SYS)
-  sockaddr_in
-#endif
-	_TClientAddress;
+  T_SOCKET _TSocket;
+  T_SOCKADDR_IN _TClientAddress;
 	int _TClientLength = sizeof(_TClientAddress);
 
 	// Accepting the Socket.
@@ -276,29 +268,14 @@ int Telepathy::Server::_AddClient() {
   return _TSocket;
 }
 
-bool Telepathy::Server::_Receive(
-#if defined(WINDOWS_SYS)
-    SOCKET
-#elif defined(POSIX_SYS)
-    int
-#endif
-ClientSocket) {
+bool Telepathy::Server::_Receive(T_SOCKET ClientSocket) {
 	char _TBuffer[BUFFER_MAX_32767];
-#if defined(WINDOWS_SYS)
-	int
-#elif defined(POSIX_SYS)
-  ssize_t
-#endif
-      _TReadBufferLength;
+  T_SSIZE_T _TReadBufferLength;
 
 	memset(_TBuffer, 0, sizeof(_TBuffer));
 
 	_TReadBufferLength =
-#if defined(WINDOWS_SYS)
-		recv(ClientSocket, _TBuffer, BUFFER_MAX_32767, 0);
-#elif defined(POSIX_SYS)
     recv(ClientSocket, _TBuffer, BUFFER_MAX_32767, 0);
-#endif
 	
 	if (_TReadBufferLength <= 0) {
     for_IterToEnd(vector, ClientsList, ConnectedClientList, i) {
@@ -329,13 +306,7 @@ ClientSocket) {
 	return true;
 }
 
-bool Telepathy::Server::SendDataToOne(char *Str,
-#if defined(WINDOWS_SYS)
-                                      SOCKET
-#elif defined(POSIX_SYS)
-                                      int
-#endif
-                                      ClientSocket) {
+bool Telepathy::Server::SendDataToOne(char *Str, T_SOCKET ClientSocket) {
 	int _TSendStatus = 0;
   int _TIndex = 0;
 
@@ -488,13 +459,7 @@ bool Telepathy::Client::ClientInitialize() {
 	// using IPv4
 	_ClientAddress.sin_family = AF_INET;
 	// 32bit IPv4 address
-	_ClientAddress.sin_addr.s_addr = *((
-#if defined(WINDOWS_SYS)
-      unsigned long
-#elif defined(POSIX_SYS)
-      in_addr_t
-#endif
-      *)_HostEntry->h_addr);
+	_ClientAddress.sin_addr.s_addr = *((T_IN_ADDR_T *)_HostEntry->h_addr);
 	//_M_ServerAddress.sin_addr.s_addr = inet_addr(IP_ADDR_LOCAL);
 	_ClientAddress.sin_port = htons((u_short)ART_TCP_PORT);
 
@@ -526,21 +491,13 @@ void Telepathy::Client::ClientClose() {
 
 bool Telepathy::Client::ClientReceiving() {
 	char _TBuffer[BUFFER_MAX_32767];
-#if defined(WINDOWS_SYS)
-	int
-#elif defined(POSIX_SYS)
-  ssize_t
-#endif
-      _TReadBufferLength;
+  T_SSIZE_T _TReadBufferLength;
 
 	memset(_TBuffer, 0, sizeof(_TBuffer));
 
 	_TReadBufferLength =
-#if defined(WINDOWS_SYS)
-		recv(_ClientSocket, _TBuffer, BUFFER_MAX_32767, 0);
-#elif defined(POSIX_SYS)
     recv(_ClientSocket, _TBuffer, BUFFER_MAX_32767, 0);
-#endif
+
 
 	if (_TReadBufferLength == -1) {
 		return false;
