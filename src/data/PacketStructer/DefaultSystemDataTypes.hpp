@@ -47,8 +47,6 @@
 #define TYPE_CASE 13
 #define REF_ARRAY 0
 
-using namespace std;
-
 /*
     System Types(Reffered by Unix System).
 

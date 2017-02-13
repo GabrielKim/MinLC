@@ -8,7 +8,7 @@
 
        Created: 2016/09/18
 
- Copyright (c) 2017, MinLC(Minimalist Library Collections).
+ Copyright (c) 2017, MinLC(Minimalist Library Collections) Project,
  All rights reserved.
  Third party copyrights are property of their respective owners.
 

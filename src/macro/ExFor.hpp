@@ -44,8 +44,6 @@
 #ifndef _ExFor_hpp_
 #define _ExFor_hpp_
 
-#include "SystemGlobalHeaders.hpp"
-
 // Iter name using "_TVal"
 #define for_IterToEnd(_TTemplate, _TType, _TTypeObject, _TVName) \
 for (_TTemplate<_TType >::iterator _##_TVName = _TTypeObject.begin(); \

@@ -41,7 +41,7 @@
 
 *********************************************************************/
 
-#include "modinclude.hpp"
+#include "dep.inc.hpp"
 
 #if defined(SET_COMMON_MODULE_RANDOM)
 

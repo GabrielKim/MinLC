@@ -41,20 +41,21 @@
 
 *********************************************************************/
 
-#include "modinclude.hpp"
+#include "dep.inc.hpp"
 
 #if defined(SET_COMMON_MODULE_CONTEXT)
 
 #ifndef _Thread_hpp_
 #define _Thread_hpp_
 
-#include "SystemCommon.hpp"
-
 #if defined(WINDOWS_SYS) && !defined(SET_LIB_PTHREAD)
 #include <windows.h>
 #include <process.h>
 #else
-#include "pthreadSupport.hpp"
+// for POSIX thread.
+#include <pthread.h>
+// for POSIX Semaphore.
+#include <semaphore.h>
 #endif
 
 class Thread {

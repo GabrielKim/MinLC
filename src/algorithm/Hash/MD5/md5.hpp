@@ -91,7 +91,7 @@
   1999-05-03 lpd Original version.
  */
 
-#include "modinclude.hpp"
+#include "dep.inc.hpp"
 
 #if defined(SET_COMMON_MODULE_HASH)
 

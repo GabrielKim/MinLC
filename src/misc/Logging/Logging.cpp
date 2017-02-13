@@ -45,11 +45,9 @@
 
 #if defined(_Logging_hpp_)
 
-#include "SystemGlobalHeaders.hpp"
-
 #if !defined(NO_LOGGING_MODULE)
 
-void LogD::Logging(const char *CallValueString, const char *Message, ...) {
+void Logging::Logger(const char *CallValueString, const char *Message, ...) {
 #if defined(LOGGING_MODE)
   va_list _TArgument_List;
   char _TStr[BUFFER_MAX_4096] = {0,};
@@ -64,7 +62,7 @@ void LogD::Logging(const char *CallValueString, const char *Message, ...) {
 
 #endif
 
-void LogD::SetCallback(void (*TCallbackFunc)(const char *, const char *)) {
+void Logging::SetCallback(void (*TCallbackFunc)(const char *, const char *)) {
 #if defined(LOGGING_MODE)
   TLogCallback = TCallbackFunc;
 #endif

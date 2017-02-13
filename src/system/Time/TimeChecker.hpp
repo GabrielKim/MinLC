@@ -41,14 +41,14 @@
 
 *********************************************************************/
 
-#include "modinclude.hpp"
+#include "dep.inc.hpp"
 
 #if defined(SET_COMMON_MODULE_TIME)
 
 #ifndef _TimeChecker_hpp_
 #define _TimeChecker_hpp_
 
-#include "SystemCommon.hpp"
+#include "required.inc.hpp"
 
 class Time {
 private:

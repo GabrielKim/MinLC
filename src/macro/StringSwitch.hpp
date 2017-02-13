@@ -44,7 +44,7 @@
 #ifndef _StringSwitch_hpp_
 #define _StringSwitch_hpp_
 
-#include "SystemGlobalHeaders.hpp"
+#include <map>
 
 /*
 	 ! Notice :

@@ -44,13 +44,6 @@
 #ifndef _Capsulator_hpp_
 #define _Capsulator_hpp_
 
-#include "SystemGlobalHeaders.hpp"
-
-/*
-	* if, increase the "extended constructions", 확장 구문이 더 많아 진다면 Black Box로 명명하고 따로 뺄 것.
-	* - GabrielKim(Doohoon Kim)
-	*/
-
 #define IMPLEMENT_GET(__ReturnType, __FuncName, __ReturnValue) \
 	__ReturnType Get_##__FuncName() \
 	{ \

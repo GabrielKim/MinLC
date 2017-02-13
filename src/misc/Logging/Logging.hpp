@@ -41,21 +41,21 @@
 
 *********************************************************************/
 
-#include "modinclude.hpp"
+#include "dep.inc.hpp"
 
-#if defined(SET_MODULE_LOGGING)
+#if defined(SET_COMMON_MODULE_LOGGING)
 
 #ifndef _Logging_hpp_
 #define _Logging_hpp_
 
-#include "SystemGlobalConstants.hpp"
+#include "const.inc.hpp"
 
-class LogD {
+class Logging {
   private:
   public:
-  LogD() { /*SetCallback(_DummyAllLogCallback, "All"); */};
+  Logging() { /*SetCallback(_DummyAllLogCallback, "All"); */};
 
-  void Logging(const char *CallValueString, const char *Message, ...)
+  void Logger(const char *CallValueString, const char *Message, ...)
 #if defined(NO_LOGGING_MODULE)
   {}
 #endif
@@ -70,7 +70,7 @@ typedef void(*_T_LOGCALLBACK)(const char *CallValueString, const char *Message);
 static _T_LOGCALLBACK TLogCallback;
 //static std::map<string, _T_LOGCALLBACK> TLogCallback;
 //typedef _T_LOGCALLBACK _T_SLOGCALLBACK;
-static LogD *G_LogD = new LogD();
+static Logging *G_LogD = new Logging();
 #endif // _Logging_hpp_
 
 #endif // SET_MODULE_LOGGING

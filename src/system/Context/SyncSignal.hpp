@@ -41,20 +41,23 @@
 
 *********************************************************************/
 
-#include "modinclude.hpp"
+#include "dep.inc.hpp"
 
 #if defined(SET_COMMON_MODULE_CONTEXT)
 
 #ifndef _SyncSignal_hpp_
 #define _SyncSignal_hpp_
 
-#include "SystemCommon.hpp"
+#include "MacroTools.hpp"
 
 #if defined(WINDOWS_SYS) && !defined(SET_LIB_PTHREAD)
 #include <windows.h>
 #include <process.h>
 #else
-#include "pthreadSupport.hpp"
+// for POSIX thread.
+#include <pthread.h>
+// for POSIX Semaphore.
+#include <semaphore.h>
 #endif
 
 #if defined(SET_LIB_PTHREAD)

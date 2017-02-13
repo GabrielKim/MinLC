@@ -41,6 +41,8 @@
 
 *********************************************************************/
 
+#include "dep.inc.hpp"
+
 #if defined(SET_COMMON_MODULE_PACKETSTRUCTER)
 
 #ifndef _PacketStructer_hpp_

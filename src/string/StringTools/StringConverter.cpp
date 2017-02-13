@@ -8,7 +8,7 @@
 
        Created: 2016/09/18
 
- Copyright (c) 2017, MinLC(Minimalist Library Collections).
+ Copyright (c) 2017, MinLC(Minimalist Library Collections) Project,
  All rights reserved.
  Third party copyrights are property of their respective owners.
 
@@ -50,7 +50,6 @@ string StringConverter::ToString(const T& Any) {
 	return dynamic_cast<std::ostringstream &>((std::ostringstream() << std::dec << Any)).str();
 }
 
-// 만들어 놓고 뭔가(?) 이상함. 조치를 취해야 함.
 const char *StringConverter::StringToConstCharPointer(string Str) {
 	const char *_TConstStr = Str.c_str();
 	char *_TStr = new char[BUFFER_MAX_32767];

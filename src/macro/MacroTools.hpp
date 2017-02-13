@@ -44,8 +44,6 @@
 #ifndef _MacroTools_hpp_
 #define _MacroTools_hpp_
 
-#include "SystemGlobalHeaders.hpp"
-
 #include "Capsulator.hpp"
 #include "ExFor.hpp"
 #include "StringSwitch.hpp"
