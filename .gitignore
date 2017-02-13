@@ -1,0 +1,16 @@
+.DS_Store
+.srctree
+.idea
+.ignore
+
+src/[Ee]xperimental/*
+build
+
+src/database
+src/type
+src/misc/i18n
+src/misc/Mathematical
+src/misc/Position
+
+# this file is “NOT” ignoring.
+!.gitignore
