@@ -41,30 +41,33 @@
 
 *********************************************************************/
 
-#include "modinclude.hpp"
+#include "dep.inc.hpp"
 
 #if defined(SET_COMMON_MODULE_LISTITER)
 
-#ifndef _StringListIter_hpp_
-#define _StringListIter_hpp_
+#ifndef _ListIter_hpp_
+#define _ListIter_hpp_
 
-#include "SystemCommon.hpp"
+#include "required.inc.hpp"
+#include "MacroTools.hpp"
+
+using namespace std;
 
 template <typename T>
-class StringListIter {
+class ListIter {
 private:
-	list<T> *_StringList;
+	list<T> *_List;
 	typedef typename list<T>::iterator ISI;
-	ISI _StringListIter;
+	ISI _ListIter;
 	
-	bool _IsInitializedStringList;
+	bool _IsInitializedList;
 	bool _IsInitialize;
 	int _EndPoint;
 
 	// Area of Private Methods.
 #pragma region Private Methods
 	void _Initialize_Members() {
-		_IsInitializedStringList = false;
+		_IsInitializedList = false;
 		_IsInitialize = false;
 	}
 
@@ -74,34 +77,34 @@ private:
 			_Release_Pointer();
 	}
 
-	void _Initialize_StringList(list<T> *__StringList) {
-		_StringList = new list<T>();
+	void _Initialize_List(list<T> *__List) {
+		_List = new list<T>();
 
-		_StringList = __StringList;
-		_StringListIter = _StringList->begin();
-		_EndPoint = __StringList->size();
+		_List = __List;
+		_ListIter = _List->begin();
+		_EndPoint = __List->size();
 		_IsInitialize = true;
-		_IsInitializedStringList = true;
+		_IsInitializedList = true;
 	}
 	void _Release_Pointer() {
-		if (_StringList != NULL && _IsInitializedStringList == true)
-			delete _StringList;
+		if (_List != NULL && _IsInitializedList == true)
+			delete _List;
 
 		_IsInitialize = false;
 	}
 #pragma endregion Private Methods
 public:
 #pragma region Constructor & Destructor
-	StringListIter() {
+	ListIter() {
 		_Initialize_Members();
 		_Initialize();
 	}
-	StringListIter(list<T> *StringList) {
+	ListIter(list<T> *AnyList) {
 		_Initialize_Members();
 		_Initialize();
-		_Initialize_StringList(StringList);
+		_Initialize_List(AnyList);
 	}
-	~StringListIter() {
+	~ListIter() {
 		_Deinitialize();
 		_Initialize_Members();
 	}
@@ -109,33 +112,33 @@ public:
 	
 	// Area of Public Methods.
 #pragma region Public Methods
-	IMPLEMENT_GET(typename list<T>::iterator, NowStringIter, _StringListIter); // thus, list<T>::iterator Get_NowStringIter();
+	IMPLEMENT_GET(typename list<T>::iterator, NowStringIter, _ListIter); // thus, list<T>::iterator Get_NowStringIter();
 	bool Move_PrevStringIter() {
 		if (_IsInitialize == true && Is_FirstStringIter() != true) {
-			_StringListIter--;
+			_ListIter--;
 			return true;
 		}
 		return false;
 	}
 	bool Move_NextStringIter() {
 		if (_IsInitialize == true && Is_LastStringIter() != true) {
-			_StringListIter++;
+			_ListIter++;
 			return true;
 		}
 		return false;
 	}
 	bool Is_FirstStringIter() {
-		typename list<T>::iterator _TIter = _StringListIter;
+		typename list<T>::iterator _TIter = _ListIter;
 		_TIter--;
-		if (_IsInitialize == true && _StringList->begin() != _TIter) {
+		if (_IsInitialize == true && _List->begin() != _TIter) {
 			return false;
 		}
 		return true;
 	}
 	bool Is_LastStringIter() {
-		typename list<T>::iterator _TIter = _StringListIter;
+		typename list<T>::iterator _TIter = _ListIter;
 		_TIter++;
-		if (_IsInitialize == true && _StringList->end() != _TIter) {
+		if (_IsInitialize == true && _List->end() != _TIter) {
 			return false;
 		}
 		return true;
@@ -143,6 +146,6 @@ public:
 #pragma endregion Public Methods
 };
 
-#endif // _StringListIter_hpp_
+#endif // _ListIter_hpp_
 
-#endif // SET_COMMON_MODULE_STRINGTOOLS
+#endif // SET_COMMON_MODULE_LISTITER
