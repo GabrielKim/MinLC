@@ -93,25 +93,17 @@ public:
 
 	private:
 		Thread _Thread;
+
+    T_SOCKADDR_IN _ServerAddress;
+    T_SOCKET _ServerSocket;
 #if defined(WINDOWS_SYS)
 		WSADATA _WSAData;
-		SOCKET _ServerSocket;
-		SOCKADDR_IN _ServerAddress;
 #elif defined(POSIX_SYS)
-    sockaddr_in _ServerAddress;
-    int _ServerSocket;
-
     TCPPollFd _Fds[POLL_MAX_CONNECTIONS];
     int _ConnectionNumber;
 
     int _AddClient();
-    bool _Receive(
-#if defined(WINDOWS_SYS)
-        SOCKET
-#elif defined(POSIX_SYS)
-        int
-#endif
-    ClientSocket);
+    bool _Receive(T_SOCKET ClientSocket);
 #endif
 
 	public:
