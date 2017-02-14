@@ -84,6 +84,11 @@
 #define SET_COMMON_MODULE_IPC
 #endif
 
+// search
+#if defined(USING_COMMON_MODULE_LISTITER)
+#define SET_COMMON_MODULE_LISTITER
+#endif
+
 // string
 #if defined(USING_COMMON_MODULE_STRINGTOOLS)
 #define SET_COMMON_MODULE_STRINGTOOLS
