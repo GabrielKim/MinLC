@@ -64,14 +64,20 @@
 // link the ws2_32.lib
 #pragma comment(lib, "ws2_32.lib")
 #elif defined(POSIX_SYS)
-#include <unistd.h>
+// for TCP/IP
 #include <arpa/inet.h>
-#include <sys/types.h>
-#include <sys/socket.h>
 #include <netinet/in.h>
 #include <netinet/tcp.h>
 #include <netdb.h>
 
+// for IPC
+#include <sys/stat.h>
+#include <sys/un.h>
+
+// common
+#include <sys/socket.h>
+#include <sys/types.h>
+#include <unistd.h>
 // support poll.
 #include <sys/poll.h>
 #endif
@@ -114,4 +120,5 @@ typedef
   ssize_t
 #endif
     T_SSIZE_T;
+
 #endif // _net_def_hpp_
