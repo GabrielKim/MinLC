@@ -83,6 +83,7 @@
 #endif
 
 #define IP_ADDR_LOCAL "127.0.0.1"
+#define DEFAULT_TCP_PORT 7000
 #define DEFAULT_TCP_LISTEN_QUEUE 200
 
 #define TCP_MAX_CONNECTIONS DEFAULT_TCP_LISTEN_QUEUE
@@ -112,6 +113,14 @@ typedef
   sockaddr_in
 #endif
     T_SOCKADDR_IN;
+
+typedef
+#if defined(WINDOWS_SYS)
+  SOCKADDR_UN
+#elif defined(POSIX_SYS)
+  sockaddr_un
+#endif
+    T_SOCKADDR_UN;
 
 typedef
 #if defined(WINDOWS_SYS)
