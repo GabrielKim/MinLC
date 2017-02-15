@@ -50,7 +50,6 @@
 Thread::~Thread() {
   _Deinitialize();
 }
-
 #pragma endregion Constructor & Destructor
 
 // Area of Private Methods.
@@ -94,8 +93,6 @@ void Thread::StartThread(void *(*_StartAddress)(void *), void *Argument) {
   // Create thread.
   _IsThreadStarted = true;
   if (pthread_create(&_Thread, NULL, _StartAddress, (void *) Argument) < 0) {
-    //if (ProgLog != NULL)
-    //	ProgLog->Logging("Don't create thread.");
     _IsThreadStarted = false;
     return;
   }
