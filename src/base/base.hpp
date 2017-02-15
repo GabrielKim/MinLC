@@ -47,4 +47,18 @@
 #include "Any.hpp"
 #include "Ptr.hpp"
 
+// only create "new"
+template <typename T>
+void DeletePointer(T *obj) {
+  delete obj;
+  obj = NULL;
+}
+
+// only create "*alloc"
+template <typename T>
+void FreePointer(T *obj) {
+  free(obj);
+  obj = NULL;
+}
+
 #endif // _base_hpp_
