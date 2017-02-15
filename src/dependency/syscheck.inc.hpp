@@ -74,7 +74,10 @@
 		|| defined(Q_OS_CYGWIN) || defined(Q_OS_DARWIN))
 		#define POSIX_QT_USING
 		#define USING_QT
-	#endif
+  #endif
+  #if defined(__MACH__)
+    #define __M_MACH_
+  #endif
 #endif
 
 // using or not QT.
