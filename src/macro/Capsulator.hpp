@@ -45,19 +45,19 @@
 #define _Capsulator_hpp_
 
 #define IMPLEMENT_GET(__ReturnType, __FuncName, __ReturnValue) \
-	__ReturnType Get_##__FuncName() \
-	{ \
-		return __ReturnValue; \
-	}
+  __ReturnType Get_##__FuncName() \
+  { \
+    return __ReturnValue; \
+  }
 
 #define IMPLEMENT_SET(__Type, __FuncName, __DestValue) \
-	void Set_##__FuncName(__Type __TxV) \
-	{ \
-		__DestValue = __TxV; \
-	}
+  void Set_##__FuncName(__Type __TxV) \
+  { \
+    __DestValue = __TxV; \
+  }
 
 #define IMPLEMENT_GET_SET(__Type, __FuncName, __Value) \
-	IMPLEMENT_GET(__Type, __FuncName, __Value) \
-	IMPLEMENT_SET(__Type, __FuncName, __Value)
+  IMPLEMENT_GET(__Type, __FuncName, __Value) \
+  IMPLEMENT_SET(__Type, __FuncName, __Value)
 
 #endif // _Capsulator_hpp_

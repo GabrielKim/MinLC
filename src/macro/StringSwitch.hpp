@@ -66,16 +66,16 @@
 
 #define SSWITCH_BEGIN(Str) \
 { \
-	static std::map<string, int> _TMap; \
-	static bool _TInit = false; \
-	bool _TLoop = true; \
-	while (_TLoop) \
-	{ \
-		int _TNumberOfStr = -1; \
-		if (_TInit) { _TNumberOfStr = _TMap[Str]; _TLoop = false; } \
-			switch (_TNumberOfStr) \
-			{ \
-				case -1: {
+  static std::map<string, int> _TMap; \
+  static bool _TInit = false; \
+  bool _TLoop = true; \
+  while (_TLoop) \
+  { \
+    int _TNumberOfStr = -1; \
+    if (_TInit) { _TNumberOfStr = _TMap[Str]; _TLoop = false; } \
+      switch (_TNumberOfStr) \
+      { \
+        case -1: {
 
 #define CASE(_StrToken) } case __LINE__: if (!_TInit) _TMap[_StrToken] = __LINE__; else {
 #define DEFAULT() } case 0: default: if (_TInit) {

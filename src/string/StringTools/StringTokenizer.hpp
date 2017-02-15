@@ -54,35 +54,35 @@
 
 class StringTokenizer {
 private:
-	list<string> *_StringList;
-	string _Token;
+  list<string> *_StringList;
+  string _Token;
+  string _InternalInputString;
 
-	string _InternalInputString;
+  // Initializers.
+  void _Initialize_StringTokenizer();
+  void _Deinitialize_StringTokenizer();
 
-	// Initializers.
-	void _Initialize_StringTokenizer();
-	void _Deinitialize_StringTokenizer();
 public:
-	StringTokenizer();
-	~StringTokenizer();
+  StringTokenizer();
+  ~StringTokenizer();
 
-	void Clear_StringList();
-	void Clear_StringToken();
+  void Clear_StringList();
+  void Clear_StringToken();
 
-	// Get Functions.
-	IMPLEMENT_GET(list<string> *, TokenedStringList, _StringList); // thus, list<string> *Get_TokenedStringList();
-	list<char *> *Get_TokenedCharListArrays();
+  // Get Functions.
+  IMPLEMENT_GET(list<string> *, TokenedStringList, _StringList); // thus, list<string> *Get_TokenedStringList();
+  list<char *> *Get_TokenedCharListArrays();
 
-	// Set Functions.
-	// String Input Functions.
-	void Set_InputCharString(const char* Str);
-	IMPLEMENT_SET(string, InputString, _InternalInputString); // thus, void Set_InputString(string Str);
-	// case of String Token.
-	void Set_SingleToken(const char *SingleToken);
-	// Implement me.
-	//void Set_MultiToken(const char *, ...);
+  // Set Functions.
+  // String Input Functions.
+  void Set_InputCharString(const char *Str);
 
-	bool Go_StringToken();
+  IMPLEMENT_SET(string, InputString, _InternalInputString); // thus, void Set_InputString(string Str);
+  // case of String Token.
+  void Set_SingleToken(const char *SingleToken);
+  // Implement me.
+  //void Set_MultiToken(const char *, ...);
+  bool Go_StringToken();
 };
 
 #endif // _StringTokenizer_hpp_

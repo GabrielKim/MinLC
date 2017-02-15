@@ -46,15 +46,15 @@
 #if defined(_TimeChecker_hpp_)
 
 void Time::Start() {
-	_StartTime = clock();
+  _StartTime = clock();
 }
 
 void Time::End() {
-	_EndTime = clock();
+  _EndTime = clock();
 }
 
 double Time::Get_ElapsedTime() {
-	return (double)(_EndTime - _StartTime) / CLOCKS_PER_SEC;
+  return (double) (_EndTime - _StartTime) / CLOCKS_PER_SEC;
 }
 
 #endif // _TimeChecker_hpp_

@@ -52,17 +52,15 @@
 #include <windows.h>
 #include <process.h>
 #else
-// for POSIX thread.
-#include <pthread.h>
-// for POSIX Semaphore.
-#include <semaphore.h>
+#include <pthread.h> // for POSIX thread.
+#include <semaphore.h> // for POSIX Semaphore.
 #endif
 
 class Thread {
 private:
 #if defined(SET_LIB_PTHREAD)
-	pthread_t _Thread;
-	pthread_attr_t _ThreadAttr;
+  pthread_t _Thread;
+  pthread_attr_t _ThreadAttr;
 #elif defined(WINDOWS_SYS) && !defined(SET_LIB_PTHREAD)
   HANDLE _Thread;
   DWORD _ThreadID;
@@ -71,8 +69,9 @@ private:
 
   void _Initialize();
   void _Deinitialize();
+
 public:
-	Thread()
+  Thread()
 #if defined(SET_LIB_PTHREAD)
       : AttacheMode(false), KernelMode(false)
 #elif defined(WINDOWS_SYS) && !defined(SET_LIB_PTHREAD)
@@ -81,7 +80,7 @@ public:
   { _Initialize(); }
 
 #if defined(SET_LIB_PTHREAD)
-	Thread(bool ExcuteAttacheMode, bool ExcuteKernelMode) : AttacheMode(ExcuteAttacheMode), KernelMode(ExcuteKernelMode)
+  Thread(bool ExcuteAttacheMode, bool ExcuteKernelMode) : AttacheMode(ExcuteAttacheMode), KernelMode(ExcuteKernelMode)
 #elif defined(WINDOWS_SYS) && !defined(SET_LIB_PTHREAD)
   // This initializer for windows thread
   Thread(int _StackSize = 0) : StackSize(_StackSize), WaitingTime(INFINITE)
@@ -92,20 +91,20 @@ public:
   Thread(int _StackSize = 0, DWORD _InitFlag = 0, DWORD _WaitingTime = INFINITE) : StackSize(_StackSize), InitFlag(_InitFlag), WaitingTime(_WaitingTime)
 #endif
   { _Initialize(); }
-
-	~Thread();
+  ~Thread();
 
 #if defined(SET_LIB_PTHREAD)
-	// This is associated with start Thread and join.
-	bool AttacheMode;
-	bool KernelMode;
+  // This is associated with start Thread and join.
+  bool AttacheMode;
+  bool KernelMode;
 #elif defined(WINDOWS_SYS) && !defined(SET_LIB_PTHREAD)
   int StackSize;
   DWORD WaitingTime;
   DWORD InitFlag;
 #endif
-	void StartThread(void *(*_StartAddress) (void *), void *Argument);
-	int JoinThread();
+
+  void StartThread(void *(*_StartAddress)(void *), void *Argument);
+  int JoinThread();
 #if defined(WINDOWS_SYS) && !defined(SET_LIB_PTHREAD)
   void ResumeThread();
 #endif

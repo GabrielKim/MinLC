@@ -52,11 +52,11 @@
 
 class Time {
 private:
-	clock_t _StartTime, _EndTime;
+  clock_t _StartTime, _EndTime;
 public:
-	void Start();
-	void End();
-	double Get_ElapsedTime();
+  void Start();
+  void End();
+  double Get_ElapsedTime();
 };
 
 #endif // _TimeChecker_hpp_

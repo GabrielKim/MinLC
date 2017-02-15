@@ -56,28 +56,28 @@
 
 typedef struct _ClientsList {
 #if defined(WINDOWS_SYS)
-	SOCKADDR_IN ClientAddress;
-	SOCKET ClientSocket;
+  SOCKADDR_IN ClientAddress;
+  SOCKET ClientSocket;
 #elif defined(POSIX_SYS)
   sockaddr_in ClientAddress;
   int ClientSocket;
 #endif
-	int ClientNumber;
-	// 이름 및 type의 최대 길이는 32까지.
-	char *ClientType;
-	char *ClientName;
+  int ClientNumber;
+  // 이름 및 type의 최대 길이는 32까지.
+  char *ClientType;
+  char *ClientName;
 
-	void ClientsListInitialize() {
-		ClientNumber = -1;
-		ClientType = new char[BUFFER_MAX_64];
-		ClientName = new char[BUFFER_MAX_64];
-	}
+  void ClientsListInitialize() {
+    ClientNumber = -1;
+    ClientType = new char[BUFFER_MAX_64];
+    ClientName = new char[BUFFER_MAX_64];
+  }
 
-	void ClientsListDeinitialize() {
-		ClientNumber = -1;
-		delete ClientType;
-		delete ClientName;
-	}
+  void ClientsListDeinitialize() {
+    ClientNumber = -1;
+    delete ClientType;
+    delete ClientName;
+  }
 
   _ClientsList() { ClientsListInitialize(); }
   //~_ClientsList() { ClientsListDeinitialize(); }
@@ -89,67 +89,66 @@ class Telepathy {
 private:
 
 public:
-	// Server Class
-	class Server {
-
-	private:
-		Thread _Thread;
+  // Server Class
+  class Server {
+  private:
+    Thread _Thread;
 
     T_SOCKADDR_IN _ServerAddress;
     T_SOCKET _ServerSocket;
 #if defined(WINDOWS_SYS)
-		WSADATA _WSAData;
+    WSADATA _WSAData;
 #elif defined(POSIX_SYS)
     TCPPollFd _Fds[POLL_MAX_CONNECTIONS];
     int _ConnectionNumber;
 
     int _AddClient();
     bool _Receive(T_SOCKET ClientSocket);
+
 #endif
 
     int _Port;
-	public:
-		Server();
-		~Server();
+  public:
+    Server();
+    ~Server();
 
-		//list<SOCKET> ConnectorsSocketList;
-		vector<ClientsList> ConnectedClientList;
+    //list<SOCKET> ConnectorsSocketList;
+    vector<ClientsList> ConnectedClientList;
 
-		bool IsInitializeServer;
-		bool IsServerStarted;
+    bool IsInitializeServer;
+    bool IsServerStarted;
 
-		// server Callback
-		typedef void (* _T_SERVERRECEIVEDCALLBACK)(char *Buffer, T_SOCKET ClientSocket);
-		typedef void (* _T_ANYCONNECTIONNOTIFIER)(T_SOCKET ClientSocket);
-    typedef void (* _T_ANYDISCONNECTIONNOTIFIER)(T_SOCKET ClientSocket);
+    // server Callback
+    typedef void (*_T_SERVERRECEIVEDCALLBACK)(char *Buffer, T_SOCKET ClientSocket);
+    typedef void (*_T_ANYCONNECTIONNOTIFIER)(T_SOCKET ClientSocket);
+    typedef void (*_T_ANYDISCONNECTIONNOTIFIER)(T_SOCKET ClientSocket);
 
-		// Server Receive Callback Pointer.
-		_T_SERVERRECEIVEDCALLBACK TServerReceivedCallback;
-		_T_ANYCONNECTIONNOTIFIER TAnyConnectionNotifier;
+    // Server Receive Callback Pointer.
+    _T_SERVERRECEIVEDCALLBACK TServerReceivedCallback;
+    _T_ANYCONNECTIONNOTIFIER TAnyConnectionNotifier;
     _T_ANYDISCONNECTIONNOTIFIER TAnyDisconnectionNotifier;
 
     static void *Server_ConnectionThread(void *Param);
 
-		bool Initialize_Server();
-		bool Start_Server();
-		void Close_Server();
+    bool Initialize_Server();
 
-		bool SendDataToOne(char *Str, T_SOCKET ClientSocket);
-		void SendDataToAll(char *Str);
+    bool Start_Server();
+    void Close_Server();
 
+    bool SendDataToOne(char *Str, T_SOCKET ClientSocket);
+    void SendDataToAll(char *Str);
+  };
 
-	};
-
-	// Client Class
-	class Client {
-	private:
-		Thread _Thread;
-		unsigned int _Address;
+  // Client Class
+  class Client {
+  private:
+    Thread _Thread;
+    unsigned int _Address;
 #if defined(WINDOWS_SYS)
-		HOSTENT *_HostEntry;
-		WSADATA _WSAData;
-		SOCKET _ClientSocket;
-		SOCKADDR_IN _ClientAddress;
+    HOSTENT *_HostEntry;
+    WSADATA _WSAData;
+    SOCKET _ClientSocket;
+    SOCKADDR_IN _ClientAddress;
 #elif defined(POSIX_SYS)
     hostent *_HostEntry;
     int _ClientSocket;
@@ -158,35 +157,38 @@ public:
 
     string _IP;
     int _Port;
-	public:
-		Client();
-		~Client();
+  public:
+    Client();
 
-		bool IsInitializeClient;
-		bool IsConnectedClient;
+    ~Client();
 
-		// client Callback
-		typedef void (* _T_CLIENTRECEIVEDCALLBACK)(char *Buffer);
-		typedef void (* _T_CLIENTDISCONNECTEDCALLBACK)();
+    bool IsInitializeClient;
+    bool IsConnectedClient;
 
-		// Client Receive Callback Pointer.
-		_T_CLIENTRECEIVEDCALLBACK TClientReceivedCallback;
-		_T_CLIENTDISCONNECTEDCALLBACK TClientDisconnectedCallback;
+    // client Callback
+    typedef void (*_T_CLIENTRECEIVEDCALLBACK)(char *Buffer);
+    typedef void (*_T_CLIENTDISCONNECTEDCALLBACK)();
+
+    // Client Receive Callback Pointer.
+    _T_CLIENTRECEIVEDCALLBACK TClientReceivedCallback;
+    _T_CLIENTDISCONNECTEDCALLBACK TClientDisconnectedCallback;
 
     static void *Client_ReceivingThread(void *Param);
 
-		bool ClientInitialize();
-		void ClientReceiveStart();
-		void ClientClose();
-		bool ClientReceiving();
+    bool ClientInitialize();
+    void ClientReceiveStart();
 
-		bool ClientConnect();
-		void ClientDisconnect();
-		//bool ClientReConnect();
+    void ClientClose();
+    bool ClientReceiving();
 
-		bool SendData(char *Str);
-	};
+    bool ClientConnect();
+    void ClientDisconnect();
+    //bool ClientReConnect();
+
+    bool SendData(char *Str);
+  };
 };
+
 #endif // _Telepathy_hpp_
 
 #endif // SET_COMMON_MODULE_ETHERNET
