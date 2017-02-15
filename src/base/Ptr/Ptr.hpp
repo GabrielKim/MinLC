@@ -72,8 +72,7 @@ namespace mlc {
     struct PtrOwner;
   }
 
-  template<typename Y>
-  struct DefaultDeleter { void operator()(Y *p) const; };
+  template<typename Y> struct DefaultDeleter { void operator () (Y *p) const; };
 
   template<typename T>
   struct Ptr {
@@ -87,8 +86,7 @@ namespace mlc {
 //#endif
     Ptr(Y *p);
 
-    template<typename Y, typename D>
-    Ptr(Y *p, D d);
+    template<typename Y, typename D> Ptr(Y *p, D d);
     Ptr(const Ptr &o);
     template<typename Y> Ptr(const Ptr<Y> &o);
     template<typename Y> Ptr(const Ptr<Y> &o, T *p);
