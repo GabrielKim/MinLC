@@ -41,14 +41,16 @@
 
 *********************************************************************/
 
-#include "modinclude.hpp"
+#include "dep.inc.hpp"
 
 #if defined(SET_COMMON_MODULE_STRINGTOOLS)
 
 #ifndef _StringTokenizer_hpp_
 #define _StringTokenizer_hpp_
 
-#include "SystemCommon.hpp"
+#include "required.inc.hpp"
+
+#include "MacroTools.hpp"
 
 class StringTokenizer {
 private:

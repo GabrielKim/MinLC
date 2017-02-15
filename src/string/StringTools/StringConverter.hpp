@@ -41,14 +41,14 @@
 
 *********************************************************************/
 
-#include "modinclude.hpp"
+#include "dep.inc.hpp"
 
 #if defined(SET_COMMON_MODULE_STRINGTOOLS)
 
 #ifndef _StringConverter_hpp_
 #define _StringConverter_hpp_
 
-#include "SystemCommon.hpp"
+#include "required.inc.hpp"
 
 class StringConverter {
 private:
