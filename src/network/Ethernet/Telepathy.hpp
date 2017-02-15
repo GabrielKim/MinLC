@@ -51,6 +51,7 @@
 #include "required.inc.hpp"
 #include "net.def.hpp"
 
+#include "MacroTools.hpp"
 #include "Thread.hpp"
 
 typedef struct _ClientsList {
@@ -106,6 +107,7 @@ public:
     bool _Receive(T_SOCKET ClientSocket);
 #endif
 
+    int _Port;
 	public:
 		Server();
 		~Server();
@@ -120,10 +122,13 @@ public:
 		typedef void (* _T_SERVERRECEIVEDCALLBACK)(char *Buffer, T_SOCKET ClientSocket);
 		typedef void (* _T_ANYCONNECTIONNOTIFIER)(T_SOCKET ClientSocket);
     typedef void (* _T_ANYDISCONNECTIONNOTIFIER)(T_SOCKET ClientSocket);
+
 		// Server Receive Callback Pointer.
 		_T_SERVERRECEIVEDCALLBACK TServerReceivedCallback;
 		_T_ANYCONNECTIONNOTIFIER TAnyConnectionNotifier;
     _T_ANYDISCONNECTIONNOTIFIER TAnyDisconnectionNotifier;
+
+    static void *Server_ConnectionThread(void *Param);
 
 		bool Initialize_Server();
 		bool Start_Server();
@@ -132,12 +137,7 @@ public:
 		bool SendDataToOne(char *Str, T_SOCKET ClientSocket);
 		void SendDataToAll(char *Str);
 
-		// using pthread
-		static void *Server_ConnectionThread(void *Param);
-    /*
-		// using pthread
-		static void *Server_ReceivingThread(void *Param);
-     */
+
 	};
 
 	// Client Class
@@ -154,7 +154,10 @@ public:
     hostent *_HostEntry;
     int _ClientSocket;
     sockaddr_in _ClientAddress;
-#endif		
+#endif
+
+    string _IP;
+    int _Port;
 	public:
 		Client();
 		~Client();
@@ -170,6 +173,8 @@ public:
 		_T_CLIENTRECEIVEDCALLBACK TClientReceivedCallback;
 		_T_CLIENTDISCONNECTEDCALLBACK TClientDisconnectedCallback;
 
+    static void *Client_ReceivingThread(void *Param);
+
 		bool ClientInitialize();
 		void ClientReceiveStart();
 		void ClientClose();
@@ -180,9 +185,6 @@ public:
 		//bool ClientReConnect();
 
 		bool SendData(char *Str);
-
-		// using pthread
-		static void *Client_ReceivingThread(void *Param);
 	};
 };
 #endif // _Telepathy_hpp_

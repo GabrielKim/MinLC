@@ -154,7 +154,7 @@ bool Telepathy::Server::Initialize_Server() {
       ;
 
 	// Using port.
-	_ServerAddress.sin_port = htons((u_short)ART_TCP_PORT);
+	_ServerAddress.sin_port = htons((u_short)DEFAULT_TCP_PORT);
 	// Socket Create.
 	_ServerSocket = socket(AF_INET, SOCK_STREAM, 0);
 	int _TOptionValue = 1;
@@ -461,7 +461,7 @@ bool Telepathy::Client::ClientInitialize() {
 	// 32bit IPv4 address
 	_ClientAddress.sin_addr.s_addr = *((T_IN_ADDR_T *)_HostEntry->h_addr);
 	//_M_ServerAddress.sin_addr.s_addr = inet_addr(IP_ADDR_LOCAL);
-	_ClientAddress.sin_port = htons((u_short)ART_TCP_PORT);
+	_ClientAddress.sin_port = htons((u_short)DEFAULT_TCP_PORT);
 
 	IsInitializeClient = true;
 	return true;
