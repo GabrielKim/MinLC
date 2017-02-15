@@ -50,6 +50,10 @@
 #include <string>
 #include <cassert>
 
+// for Demangling.
+#include <exception>
+#include <cxxabi.h>
+
 using namespace std;
 
 template<class T>
@@ -61,6 +65,7 @@ private:
     virtual ~Base() { }
     virtual Base *Clone() const = 0;
     virtual string TypeName() const = 0;
+    virtual string TypenameDemangle() const = 0;
   };
 
   template<typename T>
@@ -72,6 +77,10 @@ private:
 
     Base *Clone() const { return new Derived<T>(_Val); }
     string TypeName() const { return string(typeid(_Val).name()); }
+    string TypenameDemangle() const {
+      int _TStatus;
+      return string(abi::__cxa_demangle(typeid(_Val).name(), 0, 0, &_TStatus));
+    }
   };
 
   Base *Clone() const {
@@ -86,11 +95,16 @@ private:
       return Ptr->TypeName();
   }
 
+  string TypenameDemangle() const {
+    if (Ptr)
+      return Ptr->TypenameDemangle();
+  }
+
   Base *Ptr;
 
 public:
   template<typename U>
-  Any(U &&Val) : Ptr(new Derived<__StorageType<U>>(forward<U>(Val))) { }
+  Any(U &&Val) : Ptr(new Derived<__StorageType<U> >(forward<U>(Val))) { }
   Any() : Ptr(nullptr) { }
   Any(Any &That) : Ptr(That.Clone()) { }
   Any(Any &&That) : Ptr(That.Ptr) { That.Ptr = nullptr; }
@@ -114,6 +128,7 @@ public:
   bool Is_Null() const { return !Ptr; }
   bool Not_Null() const { return Ptr; }
   string Get_Type() { return TypeName(); }
+  string Get_TypeDemangle() { return TypenameDemangle(); }
 
   template<class U>
   bool Is() const {
@@ -133,7 +148,7 @@ public:
     return _TDerived->_Val;
   }
 
-  template<class U> operator U() { return As<__StorageType<U>>(); }
+  template<class U> operator U() { return As<__StorageType<U> >(); }
 };
 
 #endif //_Any_hpp_
