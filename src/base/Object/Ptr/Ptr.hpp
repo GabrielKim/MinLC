@@ -16,35 +16,13 @@
  Copyright (C) 2015, Itseez Inc., all rights reserved.
 
  ** Copyright (c) 2017, MinLC(Minimalist Library Collections) Project,
- All rights reserved(not this part).
- Third party copyrights are property of their respective owners.
+ All rights reserved(NOT THIS PART FOR "MinLC").
 
- Redistribution and use in source and binary forms, with or without
- modification, are permitted provided that the following conditions
- are met:
+ ** The "OpenCV" library conforms to the "3-clause BSD"
+    license agreement.
 
- 1. Redistributions of source code must retain the above copyright
-    notice, this list of conditions and the following disclaimer.
- 2. Redistributions in binary form must reproduce the above copyright
-    notice, this list of conditions and the following disclaimer in
-    the documentation and/or other materials provided with the
-    distribution.
- 3. Neither the name of the copyright holder nor the names of its
-    contributors may be used to endorse or promote products derived
-    from this software without specific prior written permission.
-
- THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
- FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
- THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
- INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
- (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
- STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
- OF THE POSSIBILITY OF SUCH DAMAGE.
+ ** The "MinLC" is distributed under the "3-clause BSD" license.
+    See details COPYING.
 
 *********************************************************************/
 
@@ -55,20 +33,11 @@
 
 namespace mlc {
   namespace detail {
-    template<typename T>
-    struct RefOrVoid { typedef T &type; };
-
-    template<>
-    struct RefOrVoid<void> { typedef void type; };
-
-    template<>
-    struct RefOrVoid<const void> { typedef const void type; };
-
-    template<>
-    struct RefOrVoid<volatile void> { typedef volatile void type; };
-
-    template<>
-    struct RefOrVoid<const volatile void> { typedef const volatile void type; };
+    template<typename T> struct RefOrVoid { typedef T &type; };
+    template<> struct RefOrVoid<void> { typedef void type; };
+    template<> struct RefOrVoid<const void> { typedef const void type; };
+    template<> struct RefOrVoid<volatile void> { typedef volatile void type; };
+    template<> struct RefOrVoid<const volatile void> { typedef const volatile void type; };
     struct PtrOwner;
   }
 
@@ -79,13 +48,7 @@ namespace mlc {
     typedef T element_type;
 
     Ptr();
-
-    template<typename Y>
-//#ifdef DISABLE_OPENCV_24_COMPATIBILITY
-    explicit
-//#endif
-    Ptr(Y *p);
-
+    template<typename Y> explicit Ptr(Y *p);
     template<typename Y, typename D> Ptr(Y *p, D d);
     Ptr(const Ptr &o);
     template<typename Y> Ptr(const Ptr<Y> &o);
@@ -109,7 +72,7 @@ namespace mlc {
     template<typename Y> Ptr<Y> constCast() const;
     template<typename Y> Ptr<Y> dynamicCast() const;
 
-#ifdef CV_CXX_MOVE_SEMANTICS
+#ifdef MLC_CXX_MOVE_SEMANTICS
     Ptr(Ptr&& o);
     Ptr& operator = (Ptr&& o);
 #endif
@@ -117,9 +80,7 @@ namespace mlc {
     detail::PtrOwner *owner;
     T *stored;
 
-    template<typename Y>
-    friend
-    struct Ptr;
+    template<typename Y> friend struct Ptr;
   };
 
   template<typename T> void swap(Ptr<T> &ptr1, Ptr<T> &ptr2);
