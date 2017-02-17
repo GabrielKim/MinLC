@@ -39,10 +39,14 @@ class IPC {
 public:
   class Transceiver { // like client.
   private:
-    mlc::Ptr<Thread> _TransceiverThread;
-    mlc::Ptr<Thread> _RequesterThread;
+    typedef struct _TransceiverVariables{
+      string FileSrc;
+      int SegTransSize;
+      int MaxTransSize;
+    } TransceiverVariables;
 
-    string _FileSrc;
+    mlc::Ptr<Thread> _TransmitThread;
+    mlc::Ptr<Thread> _RequesterThread;
 
     T_SOCKET _TransceiverSocket;
     T_SOCKADDR_UN _TransceiverFd;
@@ -50,12 +54,11 @@ public:
     queue<string> _TransmitMsgQueue;
     ThreadMutex _Mutex_TransmitMsgQueue;
     mlc::Ptr<SyncSignal> _SyncSignal_TransmitMsgQueue;
-
-    mlc::Ptr<SyncSignal> _SyncSignal_TransceiverThreadLoopIn;
+    mlc::Ptr<SyncSignal> _SyncSignal_TransmitThreadLoopIn;
     mlc::Ptr<SyncSignal> _SyncSignal_RequesterThreadWakeUp;
 
     bool _TransceiverStarted;
-    bool _TransceiverThreadLoopIn;
+    bool _TransmitThreadLoopIn;
     bool _RequesterThreadLoopIn;
     bool _IsConnected;
 
@@ -65,15 +68,17 @@ public:
     void _CloseConnection();
 
     void _SafeTransceiverThreadActivate();
-    void _SafeTransceiverThreadExit();
+    void _SafeTransceiverThreadsExit();
 
-    template <typename T> bool _IsEmptyQueue(queue<T> __Queue, ThreadMutex __Mutex);
+    void _TransceiverCommunicationProcess();
 
-    static void *_Transceiver_ConnectionThread(void *Param);
+    static void *_Transceiver_TransmitThread(void *Param);
     static void *_Transceiver_RequesterThread(void *Param);
 
     static void _TimerRequestExpiredNotifier(void);
   public:
+    mlc::Ptr<TransceiverVariables> Options;
+
     Transceiver() { _Initialize(); }
     ~Transceiver() { _Deinitialize(); }
 
@@ -81,40 +86,55 @@ public:
     void Stop_Transceiver();
     void Send_Transceiver(string StrMsg);
 
-    IMPLEMENT_SET(string, FileSrc, _FileSrc);
+    //IMPLEMENT_SET(string, FileSrc, _FileSrc);
   };
 
   class Receiver { // like server.
   private:
-    mlc::Ptr<Thread> _ReceiverThread;
-    string _FileSrc;
+    typedef struct _ReceiverVariables{
+      string FileSrc;
+    } ReceiverVariables;
+
+    mlc::Ptr<Thread> _ReceiveThread;
+    mlc::Ptr<Thread> _MessageBackThread;
 
     T_SOCKET _ReceiverSocket, _TransceiverSocket;
     T_SOCKADDR_UN _ReceiverFd, _TransceiverFd;
 
-    queue<string> _RecvMsgQueue;
-    ThreadMutex _Mutex_RecvMsgQueue;
-    mlc::Ptr<SyncSignal> _SyncSignal_RecvMsgQueue;
+    queue<string> _ReceiveMsgQueue;
+    ThreadMutex _Mutex_ReceiveMsgQueue;
+    mlc::Ptr<SyncSignal> _SyncSignal_ReceiveMsgQueue;
 
     bool _ReceiverStarted;
+    bool _ReceiveThreadLoopIn;
+    bool _MessageBackThreadLoopIn;
     bool _IsConnected;
 
     void _Initialize();
     void _Deinitialize();
     bool _OpenConnection();
-    bool _CloseConnection();
+    void _CloseConnection();
 
-    template <typename T> bool _IsEmptyQueue(queue<T> __Queue, ThreadMutex __Mutex);
+    void _SafeReceiverThreadActivate();
+    void _SafeReceiverThreadsExit();
 
-    static void *_Receiver_ConnectionThread(void *Param);
+    void _ReceiverCommunicationProcess();
+
+    static void *_Receiver_ReceiveThread(void *Param);
+    static void *_Receiver_MessageBackThread(void *Param);
   public:
+    mlc::Ptr<ReceiverVariables> Options;
+
     Receiver() { _Initialize(); }
     ~Receiver() { _Deinitialize(); }
 
-    bool Start_Receiver();
-    bool Close_Receiver();
+    typedef void (*_T_MESSAGEBACK)(string Msg);
+    _T_MESSAGEBACK TMessageBack;
 
-    IMPLEMENT_SET(string, FileSrc, _FileSrc);
+    bool Start_Receiver();
+    void Stop_Receiver();
+
+    //IMPLEMENT_SET(string, FileSrc, _FileSrc);
   };
 };
 
