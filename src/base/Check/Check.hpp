@@ -1,8 +1,8 @@
 /*********************************************************************
 
-          File: base.hpp
+          File: Check.hpp
 
-   Description: base Header Part.
+   Description: Check Header Part.
 
         Author: Doohoon Kim (Gabriel Kim, invi.dh.kim@gmail.com)
 
@@ -16,10 +16,10 @@
 
 *********************************************************************/
 
-#ifndef _base_hpp_
-#define _base_hpp_
+#ifndef _Check_hpp_
+#define _Check_hpp_
 
-#include "Object.hpp"
-#include "Check.hpp"
+#include "Safe_EmptyCheck.hpp"
+#include "Safe_ObjectCheck.hpp"
 
-#endif // _base_hpp_
+#endif // _Check_hpp_
