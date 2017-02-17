@@ -23,13 +23,7 @@
 #ifndef _Thread_hpp_
 #define _Thread_hpp_
 
-#if defined(WINDOWS_SYS) && !defined(SET_LIB_PTHREAD)
-#include <windows.h>
-#include <process.h>
-#else
-#include <pthread.h> // for POSIX thread.
-#include <semaphore.h> // for POSIX Semaphore.
-#endif
+#include "Context.inc.hpp"
 
 class Thread {
 private:
