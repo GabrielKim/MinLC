@@ -41,7 +41,7 @@ private:
 
   map<string, int> _ManggledNameLink;
   map<string, int> _StringNameLink;
-  map<int, pair<int, intptr_t>> _CodeNumberLink;
+  map<int, pair<int, intptr_t> > _CodeNumberLink;
 
   void _DecideDefaultSystemType() {
     // Link a default type size on "Manggled String".
