@@ -62,7 +62,7 @@ void *Telepathy::Server::Server_ConnectionThread(void *Param) {
         continue;
 
       if (_TServer->_Fds[i].fd == _TServer->_ServerSocket) {
-        int _TSocket = G_TelepathyServer->_AddClient();
+        int _TSocket = _TServer->_AddClient();
         if (_TSocket == -1) {
           // Fail that Socket Connect.
           continue;
@@ -74,7 +74,7 @@ void *Telepathy::Server::Server_ConnectionThread(void *Param) {
         }
       }
       else {
-        if (G_TelepathyServer->_Receive(_TServer->_Fds[i].fd) == false) {
+        if (_TServer->_Receive(_TServer->_Fds[i].fd) == false) {
           close(_TServer->_Fds[i].fd);
           _TServer->_Fds[i].fd = -1;
           _TCompressFds = true;
